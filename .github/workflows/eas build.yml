@@ -15,8 +15,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: view content of direcory
-        run: ls
+      # - name: view content of direcory
+        # run: ls
 
 
       # - name: Create Dummy File
@@ -62,7 +62,7 @@ jobs:
         run: npm install expo-dev-client
 
       - name: Build on EAS
-        run: npx eas-cli build --platform android --profile preview --non-interactive --local --output=./build/
+        run: npx eas-cli build --platform android --profile preview --non-interactive --local
         # run: npx eas-cli build --platform android --profile development  --non-interactive --local --output=./app-build \
 
       - name: Create Release
@@ -96,7 +96,7 @@ jobs:
           asset_content_type: text/plain
 
       - name: view content of direcory
-        run: ls -l && ./build/
+        run: ls -l
 
       - name: Copy APK to Specific Path
         run: cp ./build/* ./build/new
