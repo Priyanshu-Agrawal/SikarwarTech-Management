@@ -14,6 +14,33 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+
+      - name: Create Dummy File
+        run: echo "This is a dummy file" > ./dummy.txt
+
+      - name: Create test Release
+        id: create_release_test
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
+          release_name: Release ${{ format('{0}-{1}', 'debug', github.run_number) }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset test
+        id: upload-release-asset-test
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dummy.txt
+          asset_name: dummy.txt
+          asset_content_type: text/plain
+
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -47,7 +74,8 @@ jobs:
 #            draft: false
 #            prerelease: false
 
-
+      - name: Copy APK to Specific Path
+        run: cp ./app-build/*.apk ./app.apk
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -55,9 +83,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app-build/*.apk
+          asset_path: ./app.apk
           asset_name: app.apk
           asset_content_type: application/vnd.android.package-archive
+      #- name: Upload Release Asset
+      #  id: upload-release-asset 
+      #  uses: actions/upload-release-asset@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.PAT }}
+      #  with:
+      #    upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #    asset_path: ./app-build/*.apk
+      #    asset_name: app.apk
+      #    asset_content_type: application/vnd.android.package-archive
       # - name: Upload Release Asset
       #         id: upload-release-asset 
       #         uses: sekwah41/upload-release-assets@v1.1.0
