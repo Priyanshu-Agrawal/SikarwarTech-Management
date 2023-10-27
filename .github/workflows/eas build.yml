@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Build on EAS
-        run: npx eas-cli build --platform android --non-interactive --local
+        run: npx eas-cli build --platform android --non-interactive --local --output=./app-build \
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
