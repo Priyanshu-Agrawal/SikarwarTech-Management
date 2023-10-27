@@ -75,8 +75,11 @@ jobs:
 #            draft: false
 #            prerelease: false
 
+
+      - name: view content of direcory
+        run: ls ./app-build
       - name: Copy APK to Specific Path
-        run: cp ./app-build/*.apk ./app.apk
+        run: cp ./app-build/*.apk ./app
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -84,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app.apk
+          asset_path: ./app
           asset_name: app.apk
           asset_content_type: application/vnd.android.package-archive
       #- name: Upload Release Asset
