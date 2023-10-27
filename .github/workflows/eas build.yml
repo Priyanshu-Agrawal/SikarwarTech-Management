@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: view content of direcory
-        run: ls && cd ./app-build && ls
+        run: ls
 
 
       # - name: Create Dummy File
