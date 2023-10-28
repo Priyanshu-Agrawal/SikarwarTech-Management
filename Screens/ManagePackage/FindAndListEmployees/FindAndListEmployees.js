@@ -5,8 +5,9 @@ import axios from "axios";
 import {useState} from "react";
 import {AntDesign} from "@expo/vector-icons";
 import COLORS from "../../../constants/COLORS";
+import SECRETS from "../../../constants/SECRETS";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL;
 const FindAndListEmployees = ({onEmployeeSelect}) => {
     const [matchingEmployees, setMatchingEmployees] = useState(null);
     const [loaders, setLoaders] = useState({});

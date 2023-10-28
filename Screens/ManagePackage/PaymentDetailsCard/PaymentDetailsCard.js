@@ -3,8 +3,9 @@ import axios from "axios";
 import {Text, View} from "react-native";
 import PaymentDetailsCardStyles from "./PaymentDetailsCardStyles";
 import moment from "moment";
+import SECRETS from "../../../constants/SECRETS";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL;
 const PaymentDetailsCard = ({employee}) => {
     const [paymentDetails, setPaymentDetails] = useState(null);
     const [loaders, setLoaders] = useState({});

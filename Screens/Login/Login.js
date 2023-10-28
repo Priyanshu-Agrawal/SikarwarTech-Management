@@ -5,9 +5,9 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import COLORS from "../../constants/COLORS";
 import {FontAwesome, Ionicons} from "@expo/vector-icons";
+import SECRETS from "../../constants/SECRETS";
 
-
-const API_URL = process.env.EXPO_PUBLIC_API_URL ;
+const API_URL = SECRETS.API_URL ;
 const Login = ({navigation}) => {
     const [loaders, setLoaders] = useState({});
 
@@ -79,6 +79,7 @@ const Login = ({navigation}) => {
                     <Text style={LoginFormStyle.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
             </View>
+            <Text>API URL: {API_URL}</Text>
         </View>
     );
 };

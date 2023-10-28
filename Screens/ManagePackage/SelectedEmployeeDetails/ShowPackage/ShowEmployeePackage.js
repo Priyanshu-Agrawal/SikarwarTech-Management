@@ -7,8 +7,9 @@ import React, {useState} from "react";
 import { SelectList } from 'react-native-dropdown-select-list'
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
+import SECRETS from "../../../../constants/SECRETS";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL;
 const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
     const [loaders, setLoaders] = useState({});
     const [showAddAmount, setShowAddAmount] = useState(false);

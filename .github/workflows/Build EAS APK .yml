@@ -61,6 +61,30 @@ jobs:
       - name: Install expo-dev-client
         run: npm install expo-dev-client
 
+#      - name: Install Replace In File
+#        run: npm install replace-in-file
+
+#      - name: Replace secrets
+#        run: npx replace-in-file 'process.env.EXPO_PUBLIC_API_URL' ${{ secrets.API_URL }} ./constants/SECRETS.js
+
+#      - name: Replace secrets in SECRETS_TEMPLATE.js
+#        run: |
+#          sed -i "s/process.env.EXPO_PUBLIC_API_URL/${{ secrets.API_URL }}/g" ./constants/SECRETS_TEMPLATE.js
+#          mv ./constants/SECRETS_TEMPLATE.js ./constants/SECRETS.js
+
+      - name: Remove existing SECRETS
+        run: rm ./constants/SECRETS.js
+
+      - name: Create SECRETS.js
+        run: |
+          echo "const SECRETS  = {" >> ./constants/SECRETS.js
+          echo "    API_URL : '${{ secrets.API_URL }}'" >> ./constants/SECRETS.js
+          echo "}" >> ./constants/SECRETS.js
+          echo "export default SECRETS;" >> ./constants/SECRETS.js
+
+      - name: show secrets.js
+        run: cat ./constants/SECRETS.js
+
       - name: Build on EAS
         run: npx eas-cli build --platform android --profile preview --non-interactive --local --output debug.apk
         # run: npx eas-cli build --platform android --profile development  --non-interactive --local --output=./app-build \

@@ -1,9 +1,10 @@
-import {ScrollView, Text, View} from "react-native";
+import {ScrollView, Text} from "react-native";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import EmployeeDetailCard from "./EmployeeDetailCard/EmployeeDetailCard";
+import SECRETS from "../../constants/SECRETS";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL;
 const ViewEmployees = () => {
     const [loaders, setLoaders] = useState({});
 

@@ -1,12 +1,13 @@
 import {Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 import AddPackageStyles from "./AddPackageStyles";
 import React, {useEffect, useState} from "react";
-import {FontAwesome, FontAwesome5, Ionicons} from "@expo/vector-icons";
+import {FontAwesome, Ionicons} from "@expo/vector-icons";
 import COLORS from "../../../../constants/COLORS";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
+import SECRETS from "../../../../constants/SECRETS";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL
 
 const AddPackage = ({employee, getEmployeePackage}) => {
     const [loaders, setLoaders] = useState({});

@@ -4,9 +4,10 @@ import axios from "axios";
 import SelectedEmployeeDetailsStyles from "./SelectedEmployeeDetailsStyles";
 import ShowPackage from "./ShowPackage/ShowEmployeePackage";
 import AddPackage from "./AddPackage/AddPackage";
+import SECRETS from "../../../constants/SECRETS";
 
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = SECRETS.API_URL;
 const SelectedEmployeeDetails = ({employee, setIsPackageExists}) => {
     const [employeePackage, setEmployeePackage] = useState(null);
     const [loaders, setLoaders] = useState({});
