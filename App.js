@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import SplashScreen from "./Screens/SplashScreen/SplashScreen";
 import * as Font from "expo-font";
 import COLORS from "./constants/COLORS";
+// import {StatusBar} from "expo-status-bar";
 
 
 const Stack  = createNativeStackNavigator();
@@ -37,23 +38,26 @@ const App = () => {
     }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={
-          {
-              headerStyle: {
-                  backgroundColor: COLORS.primary,
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                  fontWeight: 'bold',
-              },}
-      }>
-          <Stack.Screen name="Login" component={Login}  options={{ headerShown: false }}/>
-          <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
-          <Stack.Screen name={"ViewEmployees"} component={ViewEmployees} options={{title: 'View Employees'}}/>
-          <Stack.Screen name="ManagePackage" component={ManagePackage} options={{title: 'Manage Package'}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+        {/*<StatusBar style={"light"} translucent={true} />*/}
+        <NavigationContainer>
+        <Stack.Navigator screenOptions={
+            {
+                headerStyle: {
+                    backgroundColor: COLORS.primary,
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },}
+        }>
+            <Stack.Screen name="Login" component={Login}  options={{ headerShown: false, statusBarStyle: "dark" }}/>
+            <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false, statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
+            <Stack.Screen name={"ViewEmployees"} component={ViewEmployees} options={{title: 'View Employees', statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
+            <Stack.Screen name="ManagePackage" component={ManagePackage} options={{title: 'Manage Package',statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
+        </Stack.Navigator>
+        </NavigationContainer>
+    </>
   );
 }
 export default App;
