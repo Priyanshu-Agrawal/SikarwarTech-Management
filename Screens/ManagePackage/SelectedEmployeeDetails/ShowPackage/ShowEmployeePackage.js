@@ -1,7 +1,7 @@
 import {Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 import ShowEmployeePackageStyles from "./ShowEmployeePackageStyles";
 import moment from "moment";
-import {Feather, Ionicons} from "@expo/vector-icons";
+import {Feather, FontAwesome, Ionicons} from "@expo/vector-icons";
 import COLORS from "../../../../constants/COLORS";
 import React, {useState} from "react";
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -10,6 +10,7 @@ import axios from "axios";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
+    const [loaders, setLoaders] = useState({});
     const [showAddAmount, setShowAddAmount] = useState(false);
     const [showPaymentDatePicker, setShowPaymentDatePicker] = useState(false);
     const [paymentDetails, setPaymentDetails] = useState({});
@@ -33,12 +34,14 @@ const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
     }
 
     const savePayment = async () => {
+        setLoaders({savePayment: true})
         if (validateInputValues()){
             const response = await axios.post(`${API_URL}/call/InsertPaymentDetails`,{
                 "params": [ employeePackage.EmpID, paymentDetails.paymentAmount, paymentDetails.paymentMode, paymentDetails.paymentDate ]
             })
             if (response.data){
                 setShowAddAmount(false);
+                setLoaders({savePayment: false})
                 getEmployeePackage();
             }
         }
@@ -66,7 +69,12 @@ const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
                 <Text style={ShowEmployeePackageStyles.valuesText}>Amount Paid</Text>
                 <TouchableOpacity style={ShowEmployeePackageStyles.addAmountPaid} onPress={() => setShowAddAmount(!showAddAmount)}>
                     <Text style={ShowEmployeePackageStyles.valuesText}>{employeePackage.AmountPaid}</Text>
-                    <Feather name={showAddAmount? "chevron-up" : "plus-square"} size={24} color={COLORS.primary} />
+                    {loaders.savePayment ? (
+                            <FontAwesome name="spinner" size={24} color={COLORS.primary} />
+                        ):(
+                            <Feather name={showAddAmount? "chevron-up" : "plus-square"} size={24} color={COLORS.primary} />
+                        )
+                    }
                 </TouchableOpacity>
             </View>
             {showAddAmount ? (
@@ -107,6 +115,7 @@ const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
                             }
                         </View>
                         <TouchableOpacity style={ShowEmployeePackageStyles.addPaymentButton} onPress={() => savePayment()}>
+                            {loaders.savingPackage ? <FontAwesome name="spinner" size={24} color={COLORS.white} /> : null  }
                             <Text style={ShowEmployeePackageStyles.addPaymentButtonText}>Add</Text>
                         </TouchableOpacity>
                     </View>

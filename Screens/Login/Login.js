@@ -4,11 +4,13 @@ import LoginFormStyle from "./LoginFormStyle";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import COLORS from "../../constants/COLORS";
-import {Ionicons} from "@expo/vector-icons";
+import {FontAwesome, Ionicons} from "@expo/vector-icons";
 
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ;
 const Login = ({navigation}) => {
+    const [loaders, setLoaders] = useState({});
+
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -42,6 +44,7 @@ const Login = ({navigation}) => {
         return isValid;
     };
     const startAuthentication = async () => {
+        setLoaders({login: true});
         if(validateInputs()) {
             const response = await axios.post(`${API_URL}/call/authenticateUser` ,{
                 "params": [ username,password ]
@@ -71,7 +74,8 @@ const Login = ({navigation}) => {
                         <Ionicons name={hidePass ? "eye-off" : "eye"} size={24} color={hidePass ? COLORS.secondary_text : COLORS.primary} />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={LoginFormStyle.button} onPress={() => startAuthentication() }>
+                <TouchableOpacity style={LoginFormStyle.button} disabled={loaders.login} onPress={() => startAuthentication() }>
+                    {loaders.login && <FontAwesome name={"spinner"} size={24} color={COLORS.white} style={{marginRight: 10}}/>}
                     <Text style={LoginFormStyle.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
             </View>

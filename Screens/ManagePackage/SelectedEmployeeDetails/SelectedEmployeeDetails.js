@@ -9,6 +9,7 @@ import AddPackage from "./AddPackage/AddPackage";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const SelectedEmployeeDetails = ({employee, setIsPackageExists}) => {
     const [employeePackage, setEmployeePackage] = useState(null);
+    const [loaders, setLoaders] = useState({});
 
     useEffect(() => {
         getEmployeePackages().then();
@@ -16,10 +17,12 @@ const SelectedEmployeeDetails = ({employee, setIsPackageExists}) => {
 
 
     const getEmployeePackages = async () => {
+        setLoaders({getEmployeePackages: true})
         const response = await axios.post(`${API_URL}/call/CheckEmployeePackage`,{
             "params": [ employee.EmpID ]
         })
         if (response.data){
+            setLoaders({getEmployeePackages: false})
             setIsPackageExists(false);
             response.data[0].Message === "Package found" ? setEmployeePackage(response.data[0]) : setEmployeePackage(null);
             response.data[0].Message === "Package found" ? setIsPackageExists(true) : setIsPackageExists(false);
@@ -32,6 +35,7 @@ const SelectedEmployeeDetails = ({employee, setIsPackageExists}) => {
                 <Text style={[SelectedEmployeeDetailsStyles.headerText, SelectedEmployeeDetailsStyles.headerTextID]}>{employee.EmpID}</Text>
                 <Text style={[SelectedEmployeeDetailsStyles.headerText, SelectedEmployeeDetailsStyles.headerTextName]}>{employee.Empname}</Text>
             </View>
+            {loaders.getEmployeePackages && <Text>Loading...</Text>}
             {employeePackage ? (
                     <ShowPackage employeePackage={employeePackage} getEmployeePackage={getEmployeePackages}/>
                 ) : (

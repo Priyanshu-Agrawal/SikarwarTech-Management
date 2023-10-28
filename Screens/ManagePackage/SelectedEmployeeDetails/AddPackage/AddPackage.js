@@ -1,7 +1,7 @@
 import {Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 import AddPackageStyles from "./AddPackageStyles";
 import React, {useEffect, useState} from "react";
-import {Ionicons} from "@expo/vector-icons";
+import {FontAwesome, FontAwesome5, Ionicons} from "@expo/vector-icons";
 import COLORS from "../../../../constants/COLORS";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
@@ -9,6 +9,7 @@ import axios from "axios";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const AddPackage = ({employee, getEmployeePackage}) => {
+    const [loaders, setLoaders] = useState({});
     const [packageDetails, setPackageDetails] = useState({});
     const [showOfferLetterDatePicker, setShowOfferLetterDatePicker] = useState(false);
 
@@ -38,12 +39,14 @@ const AddPackage = ({employee, getEmployeePackage}) => {
         return valid;
     };
     const savePackage = async () => {
+        setLoaders({savingPackage: true})
         if (validateInputValues()){
             const response = await axios.post(`${API_URL}/call/AddEmployeePackage`,{
                 "params": [ employee.EmpID, packageDetails.package, packageDetails.monthlyPay, packageDetails.totalPay, packageDetails.offerDate ]
             })
             if (response.data){
                 getEmployeePackage();
+                setLoaders({savingPackage: false})
             }
         }
     };
@@ -77,7 +80,8 @@ const AddPackage = ({employee, getEmployeePackage}) => {
                     ) : null
                 }
             </View>
-            <TouchableOpacity style={AddPackageStyles.button} onPress={() => savePackage() }>
+            <TouchableOpacity style={AddPackageStyles.button} disabled={loaders.savingPackage} onPress={() => savePackage() }>
+                {loaders.savingPackage ? <FontAwesome name="spinner" size={25} color={COLORS.white}/> : null}
                 <Text style={AddPackageStyles.buttonText}>Save Package</Text>
             </TouchableOpacity>
         </View>

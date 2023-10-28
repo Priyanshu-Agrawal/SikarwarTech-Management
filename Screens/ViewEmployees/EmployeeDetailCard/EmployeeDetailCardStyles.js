@@ -11,7 +11,12 @@ const EmployeeDetailCardStyles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 5,
     },
+    moreDetailsBtn: {
+        flex:1,
+        alignItems: 'center',
+    }
+
 });
 export default EmployeeDetailCardStyles;

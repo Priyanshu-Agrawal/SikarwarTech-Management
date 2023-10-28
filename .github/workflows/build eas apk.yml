@@ -14,6 +14,37 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+          # - name: view content of direcory
+          # run: ls
+
+
+          # - name: Create Dummy File
+          #   run: echo "This is a dummy file" > ./dummy.txt
+
+          # - name: Create test Release
+          #   id: create_release_test
+          #   uses: actions/create-release@v1
+          #   env:
+          #     GITHUB_TOKEN: ${{ secrets.PAT }}
+          #   with:
+          #     tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
+          #     release_name: Release ${{ format('{0}-{1}', 'debug', github.run_number) }}
+          #     draft: false
+          #     prerelease: false
+
+      # - name: Upload Release Asset test
+      #   id: upload-release-asset-test
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PAT }}
+      #   with:
+      #     upload_url: ${{ steps.create_release_test.outputs.upload_url }}
+      #     asset_path: ./dummy.txt
+      #     asset_name: dummy.txt
+      #     asset_content_type: text/plain
+
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -26,25 +57,77 @@ jobs:
           expo-cache: true
       - name: Install Dependencies
         run: npm ci
+
+      - name: Install expo-dev-client
+        run: npm install expo-dev-client
+
       - name: Build on EAS
-        run: npx eas-cli build --platform android --non-interactive --local --output=./app-build \
+        run: npx eas-cli build --platform android --profile preview --non-interactive --local --output debug.apk
+        # run: npx eas-cli build --platform android --profile development  --non-interactive --local --output=./app-build \
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
+          release_name: Release ${{ format('{0}-{1}', 'debug', github.run_number) }}
           draft: false
           prerelease: false
+      #          tag_name: ${{ github.ref_name }}
+
+
+      #          tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
+      #            release_name: Debug APK Release
+      #            draft: false
+      #            prerelease: false
+
+
+      # - name: Upload Release Asset package
+      #   id: upload-release-asset-package
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PAT }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./package.json
+      #     asset_name: package.json
+      #     asset_content_type: text/plain
+
+      - name: view content of direcory
+        run: ls -l
+
+      # - name: Copy APK to Specific Path
+      #   run: cp ./build/* ./build/new
+
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./path/to/your/apk.apk
-          asset_name: your-apk-name.apk
+          asset_path: ./debug.apk
+          asset_name: sikarwarTechServices.apk
           asset_content_type: application/vnd.android.package-archive
+      #- name: Upload Release Asset
+      #  id: upload-release-asset
+      #  uses: actions/upload-release-asset@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.PAT }}
+      #  with:
+      #    upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #    asset_path: ./app-build/*.apk
+      #    asset_name: app.apk
+      #    asset_content_type: application/vnd.android.package-archive
+      # - name: Upload Release Asset
+      #         id: upload-release-asset
+      #         uses: sekwah41/upload-release-assets@v1.1.0
+      #         env:
+      #           GITHUB_TOKEN: ${{ secrets.PAT }} # Using PAT instead of GITHUB_TOKEN
+      #         with:
+      #           upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #           asset_path: ./app-build/*.apk
+      #           asset_name: app.apk
+      #           asset_content_type: application/vnd.android.package-archive

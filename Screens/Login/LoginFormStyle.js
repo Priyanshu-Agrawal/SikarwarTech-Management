@@ -44,12 +44,14 @@ const LoginFormStyle = StyleSheet.create({
         flexGrow: 1,
     },
     button: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
         backgroundColor: COLORS.primary,
         borderRadius: 15,
         marginTop: 25,
         marginHorizontal: 20,
         paddingVertical: 25,
-        alignItems: "center",
     },
     buttonText: {
         fontSize: 16,

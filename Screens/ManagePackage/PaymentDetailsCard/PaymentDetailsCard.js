@@ -7,11 +7,15 @@ import moment from "moment";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const PaymentDetailsCard = ({employee}) => {
     const [paymentDetails, setPaymentDetails] = useState(null);
+    const [loaders, setLoaders] = useState({});
     useEffect(() => {
-        getPaymentDetails().then()
+        getPaymentDetails().then(() => {
+            setLoaders({getPaymentDetails: false})
+        })
     }, []);
 
     const getPaymentDetails = async () => {
+        setLoaders({getPaymentDetails: true});
         const response = await axios.post(`${API_URL}/call/CheckPaymentDetails`,{
             "params": [ employee.EmpID ]
         });
@@ -26,6 +30,7 @@ const PaymentDetailsCard = ({employee}) => {
 
     return(
         <>
+            {loaders.getPaymentDetails && <Text>Loading...</Text>}
             {paymentDetails ? (
                     <View style={PaymentDetailsCardStyles.card}>
                         <View style={PaymentDetailsCardStyles.cardHeader}>
