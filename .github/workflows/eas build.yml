@@ -62,7 +62,7 @@ jobs:
         run: npm install expo-dev-client
 
       - name: Build on EAS
-        run: npx eas-cli build --platform android --profile preview --non-interactive --local
+        run: npx eas-cli build --platform android --profile preview --non-interactive --local --output debug.apk
         # run: npx eas-cli build --platform android --profile development  --non-interactive --local --output=./app-build \
 
       - name: Create Release
@@ -98,8 +98,8 @@ jobs:
       - name: view content of direcory
         run: ls -l
 
-      - name: Copy APK to Specific Path
-        run: cp ./build/* ./build/new
+      # - name: Copy APK to Specific Path
+      #   run: cp ./build/* ./build/new
 
       - name: Upload Release Asset
         id: upload-release-asset 
@@ -108,8 +108,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/new
-          asset_name: app.apk
+          asset_path: ./
+          asset_name: debug.apk
           asset_content_type: application/vnd.android.package-archive
       #- name: Upload Release Asset
       #  id: upload-release-asset 
