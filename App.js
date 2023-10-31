@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import SplashScreen from "./Screens/SplashScreen/SplashScreen";
 import * as Font from "expo-font";
 import COLORS from "./constants/COLORS";
+import AddEmployee from "./Screens/AddEmployee/AddEmployee";
 // import {StatusBar} from "expo-status-bar";
 
 
@@ -53,8 +54,9 @@ const App = () => {
         }>
             <Stack.Screen name="Login" component={Login}  options={{ headerShown: false, statusBarStyle: "dark" }}/>
             <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false, statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
-            <Stack.Screen name={"ViewEmployees"} component={ViewEmployees} options={{title: 'View Employees', statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
+            <Stack.Screen name="ViewEmployees" component={ViewEmployees} options={{title: 'View Employees', statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
             <Stack.Screen name="ManagePackage" component={ManagePackage} options={{title: 'Manage Package',statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
+            <Stack.Screen name="AddEmployee" component={AddEmployee} options={{title: 'Add Employee',statusBarTranslucent: true, statusBarColor: COLORS.primary}}/>
         </Stack.Navigator>
         </NavigationContainer>
     </>

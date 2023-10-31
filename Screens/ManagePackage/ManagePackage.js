@@ -7,8 +7,8 @@ import {Ionicons} from "@expo/vector-icons";
 import COLORS from "../../constants/COLORS";
 import PaymentDetailsCard from "./PaymentDetailsCard/PaymentDetailsCard";
 
-const ManagePackage = () => {
-    const [employee, setEmployee] = useState(null);
+const ManagePackage = ({route}) => {
+    const [employee, setEmployee] = useState(route.params?.employee ?? null);
     const [isPackageExists, setIsPackageExists] = useState(false);
 
     return(

@@ -21,13 +21,13 @@ const DashboardActions = [
         targetScreen: 'ManagePackage',
         onPress: () => navigation.navigate('ManagePackage')
     },
-    {
-        title: 'View Packages',
-        icon: 'gift',
-        description: 'View all packages of the employees in the Database',
-        targetScreen: 'ViewPackages',
-        onPress: () => navigation.navigate('ViewPackages')
-    },
+    // {
+    //     title: 'View Packages',
+    //     icon: 'gift',
+    //     description: 'View all packages of the employees in the Database',
+    //     targetScreen: 'ViewPackages',
+    //     onPress: () => navigation.navigate('ViewPackages')
+    // },
     {
         title: 'Show Transactions',
         icon: 'adduser',
