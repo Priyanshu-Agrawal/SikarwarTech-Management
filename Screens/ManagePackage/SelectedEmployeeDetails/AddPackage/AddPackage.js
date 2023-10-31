@@ -54,13 +54,13 @@ const AddPackage = ({employee, getEmployeePackage}) => {
     return(
         <View>
             <View style={AddPackageStyles.inputContainer}>
-                <TextInput placeholder="Package"  keyboardType="numeric" value={packageDetails.package} onChangeText={s => setPackageDetails({...packageDetails, "package": s})}/>
+                <TextInput placeholderTextColor={COLORS.secondary_text} placeholder="Package"  keyboardType="numeric" value={packageDetails.package} onChangeText={s => setPackageDetails({...packageDetails, "package": s})}/>
             </View>
             <View style={AddPackageStyles.inputContainer}>
-                <TextInput placeholder="Monthly Pay" keyboardType="numeric" value={packageDetails.monthlyPay} onChangeText={s => setPackageDetails({...packageDetails, "monthlyPay":s})}/>
+                <TextInput placeholderTextColor={COLORS.secondary_text} placeholder="Monthly Pay" keyboardType="numeric" value={packageDetails.monthlyPay} onChangeText={s => setPackageDetails({...packageDetails, "monthlyPay":s})}/>
             </View>
             <View style={AddPackageStyles.inputContainer}>
-                <TextInput placeholder="Total  Pay" keyboardType="numeric" value={packageDetails.totalPay} onChangeText={s => setPackageDetails({...packageDetails, "totalPay": s})}/>
+                <TextInput placeholderTextColor={COLORS.secondary_text} placeholder="Total  Pay" keyboardType="numeric" value={packageDetails.totalPay} onChangeText={s => setPackageDetails({...packageDetails, "totalPay": s})}/>
             </View>
             <View style={AddPackageStyles.inputContainer}>
                 <TouchableOpacity style={AddPackageStyles.datePicker} onPress={() => {setShowOfferLetterDatePicker(false); setShowOfferLetterDatePicker(true)}}>
@@ -73,9 +73,9 @@ const AddPackage = ({employee, getEmployeePackage}) => {
                             testID="dateTimePicker"
                             value={packageDetails.offerDate ? packageDetails.offerDate : new Date()}
                             mode={'date'}
-                            onChange={() => {
+                            onChange={(event, date) => {
                                 setShowOfferLetterDatePicker(false)
-                                setPackageDetails({...packageDetails, "offerDate": new Date})
+                                setPackageDetails({...packageDetails, "offerDate": date})
                             }}
                         />
                     ) : null

@@ -38,6 +38,9 @@ const AddEmployeeStyles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 15,
     },
+    valuesText: {
+        fontSize: 14,
+    },
     datePickerBox:{
         borderWidth: DIMENSIONS.hairlineWidth * 0.5,
         borderColor: COLORS.primary,
@@ -50,6 +53,8 @@ const AddEmployeeStyles = StyleSheet.create({
         alignItems: 'center',
     },
     btnAddEmployee: {
+        flexDirection: 'row',
+        justifyContent: 'center',
         backgroundColor: COLORS.primary,
         padding: 15,
         paddingVertical: 25,
@@ -60,6 +65,7 @@ const AddEmployeeStyles = StyleSheet.create({
         color: COLORS.white,
         fontSize: 16,
         fontWeight: 'bold',
+        marginHorizontal: 10,
     }
 });
 export default AddEmployeeStyles

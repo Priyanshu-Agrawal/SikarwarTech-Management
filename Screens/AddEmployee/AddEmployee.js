@@ -1,12 +1,69 @@
 import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import FormDataModel from "./FormDataModel";
-import React from "react";
-import {Ionicons} from "@expo/vector-icons";
+import React, {useEffect, useState} from "react";
+import {AntDesign, Ionicons} from "@expo/vector-icons";
 import COLORS from "../../constants/COLORS";
 import AddEmployeeStyles from "./AddEmployeeStyles";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import moment from "moment";
+import axios from "axios";
+import SECRETS from "../../constants/SECRETS";
 
-const AddEmployee = () => {
-    /*{"Contact_number": null, "CreatedDate": "2021-09-28T14:00:17.603Z", "DOB": "1983-02-04T00:00:00.000Z", "DOJ": "2021-03-01T00:00:00.000Z", "Designation": "Sales Manager", "E_mail": null, "ElAfter": "0", "ElBalance": "", "EmpAddress": "A-42 Gali N-1 Sec-87", "EmpCode": "SIK-108", "EmpID": 1, "Empname": "RAJESH CHAUHAN", "Isactive": true, "PANCard": "AHUPC5607Q", "PFACCNo": "", "PaidDays": "0", "Pin_Code": null, "UanNo": "", "releavingDate": null}*/
+const API_URL = SECRETS.API_URL;
+
+const AddEmployee = ({navigation}) => {
+    const [loaders, setLoaders] = useState({});
+    const [values, setValues] = useState({});
+    const [toggles, setToggles] = useState({});
+
+    const handleChange = (e, valueName) => {
+        e !== '' ? setValues({...values, [valueName]: e}): setValues({...values, [valueName]: null});
+    }
+
+    const validateInputs = () => {
+        let isValid = true;
+        FormDataModel.map(subCategory => {
+            subCategory.fields.map(field => {
+                if(field.required && !values[field.valueName]){
+                    console.log(field.label + ' is required');
+                    isValid = false;
+                }
+            })
+        })
+        return isValid;
+    }
+    const handleSubmit = () => {
+        setLoaders({...loaders, submit: true})
+        if(validateInputs()){
+            saveData().then(() => {
+                setLoaders({...loaders, submit: false})
+                setValues({})
+                navigation.navigate("ViewEmployees")
+            })
+        }else{
+            console.log('Please fill all the required fields');
+        }
+        setLoaders({...loaders, submit: false})
+    }
+
+    const saveData = async() => {
+        const response = await axios.post(`${API_URL}/table/employee`, values);
+        console.log(response.data);
+    }
+
+    useEffect(() => {
+        console.log('values');
+        console.log(values);
+    }, [values]);
+
+    /*TODO:
+    * Add Expandable Hidden SubCategory
+    * Adding Validation
+    * */
+
+    const handleToggle = (valueName) => {
+        setToggles({...toggles, [valueName]: true});
+    };
     return(
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={AddEmployeeStyles.formContainer}>
@@ -18,21 +75,37 @@ const AddEmployee = () => {
                                 <View key={index}>
                                     {field.viewType === 'textInput' && (
                                         <View style={AddEmployeeStyles.textInputBox}>
-                                            <TextInput placeholder={field.label} keyboardType={field.keyboardType} maxLength={field.maxLength}/>
+                                            <TextInput placeholderTextColor={COLORS.secondary_text} style={AddEmployeeStyles.valuesText} placeholder={field.label} value={values[field.valueName]} keyboardType={field.keyboardType} maxLength={field.maxLength} onChangeText={e => handleChange(e, field.valueName)}/>
                                         </View>
                                     )}
                                     {field.viewType === 'datePicker' && (
-                                        <TouchableOpacity style={AddEmployeeStyles.datePickerBox}>
-                                            <Text>{field.label}</Text>
-                                            <Ionicons name={"calendar-outline"} size={24} color={COLORS.primary} />
-                                        </TouchableOpacity>
+                                        <>
+                                            <TouchableOpacity style={AddEmployeeStyles.datePickerBox} onPress={() => handleToggle(field.valueName)}>
+                                                <Text style={[AddEmployeeStyles.valuesText,{color: values[field.valueName] ? COLORS.primary_text : COLORS.secondary_text}]}>
+                                                    {values[field.valueName] ? moment(values[field.valueName]).format("Do MMM YYYY")  : field.label}
+                                                </Text>
+                                                <Ionicons name={"calendar-outline"} size={24} color={COLORS.primary} />
+                                            </TouchableOpacity>
+                                            {toggles[field.valueName] && (
+                                                <RNDateTimePicker
+                                                    testID="dateTimePicker"
+                                                    value={values[field.valueName] ? new Date(values[field.valueName]) : new Date()}
+                                                    mode={'date'}
+                                                    onChange={(event, date) => {
+                                                        setToggles({...toggles, [field.valueName]: false});
+                                                        handleChange(moment(date), field.valueName);
+                                                    }}
+                                                />
+                                            )}
+                                        </>
                                     )}
                                 </View>
                             ))}
                         </View>
                     )
                 ))}
-                <TouchableOpacity style={AddEmployeeStyles.btnAddEmployee}>
+                <TouchableOpacity disabled={loaders.submit} style={AddEmployeeStyles.btnAddEmployee} onPress={() => handleSubmit()}>
+                    <AntDesign name={loaders.sumbit? "loading1" : "adduser"} size={24} color={COLORS.white} />
                     <Text style={AddEmployeeStyles.textBtnAddEmployee}>Add Employee</Text>
                 </TouchableOpacity>
             </View>

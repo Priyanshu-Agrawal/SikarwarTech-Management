@@ -81,7 +81,7 @@ const ShowEmployeePackage = ({employeePackage, getEmployeePackage}) => {
             {showAddAmount ? (
                     <View>
                         <View style={ShowEmployeePackageStyles.valuesContainer}>
-                            <TextInput style={[ShowEmployeePackageStyles.valuesText, {flex:1}]} placeholder={"Payment Amount"} keyboardType={"numeric"} onChangeText={s => setPaymentDetails({...paymentDetails, "paymentAmount": s})}/>
+                            <TextInput placeholderTextColor={COLORS.secondary_text} style={[ShowEmployeePackageStyles.valuesText, {flex:1}]} placeholder={"Payment Amount"} keyboardType={"numeric"} onChangeText={s => setPaymentDetails({...paymentDetails, "paymentAmount": s})}/>
                         </View>
                         <View>
                             <SelectList
