@@ -30,7 +30,7 @@ const DashboardActions = [
     // },
     {
         title: 'Show Transactions',
-        icon: 'adduser',
+        icon: 'layout',
         description: 'View all transactions of the employees in the Database',
         targetScreen: 'ViewTransactions',
         onPress: () => navigation.navigate('AddPackageToEmployee')
