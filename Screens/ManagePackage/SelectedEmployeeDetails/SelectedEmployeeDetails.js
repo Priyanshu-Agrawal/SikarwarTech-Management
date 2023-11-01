@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
-import {Text, View} from "react-native";
+import {ActivityIndicator, Text, View} from "react-native";
 import axios from "axios";
 import SelectedEmployeeDetailsStyles from "./SelectedEmployeeDetailsStyles";
 import ShowPackage from "./ShowPackage/ShowEmployeePackage";
 import AddPackage from "./AddPackage/AddPackage";
 import SECRETS from "../../../constants/SECRETS";
+import COLORS from "../../../constants/COLORS";
 
 
 const API_URL = SECRETS.API_URL;
@@ -36,11 +37,13 @@ const SelectedEmployeeDetails = ({employee, setIsPackageExists}) => {
                 <Text style={[SelectedEmployeeDetailsStyles.headerText, SelectedEmployeeDetailsStyles.headerTextID]}>{employee.EmpID}</Text>
                 <Text style={[SelectedEmployeeDetailsStyles.headerText, SelectedEmployeeDetailsStyles.headerTextName]}>{employee.Empname}</Text>
             </View>
-            {loaders.getEmployeePackages && <Text>Loading...</Text>}
-            {employeePackage ? (
-                    <ShowPackage employeePackage={employeePackage} getEmployeePackage={getEmployeePackages}/>
-                ) : (
-                    <AddPackage employee={employee} getEmployeePackage={getEmployeePackages}/>
+            {loaders.getEmployeePackages ? (
+                    <ActivityIndicator color={COLORS.primary}/>
+                ) : ( employeePackage ? (
+                            <ShowPackage employeePackage={employeePackage} getEmployeePackage={getEmployeePackages}/>
+                        ) : (
+                            <AddPackage employee={employee} getEmployeePackage={getEmployeePackages}/>
+                        )
                 )
             }
         </View>
