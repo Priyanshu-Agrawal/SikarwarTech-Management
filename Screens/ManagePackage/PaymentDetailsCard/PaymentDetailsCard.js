@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Text, View} from "react-native";
+import {ActivityIndicator, Text, View} from "react-native";
 import PaymentDetailsCardStyles from "./PaymentDetailsCardStyles";
 import moment from "moment";
 import SECRETS from "../../../constants/SECRETS";
+import COLORS from "../../../constants/COLORS";
 
 const API_URL = SECRETS.API_URL;
 const PaymentDetailsCard = ({employee}) => {
@@ -30,9 +31,9 @@ const PaymentDetailsCard = ({employee}) => {
     }
 
     return(
-        <>
-            {loaders.getPaymentDetails && <Text>Loading...</Text>}
-            {paymentDetails ? (
+            loaders.getPaymentDetails ? (
+                    <ActivityIndicator color={COLORS.primary} />
+                ): ( paymentDetails && (
                     <View style={PaymentDetailsCardStyles.card}>
                         <View style={PaymentDetailsCardStyles.cardHeader}>
                             <Text style={PaymentDetailsCardStyles.headerText}>Payment Details</Text>
@@ -52,9 +53,8 @@ const PaymentDetailsCard = ({employee}) => {
                             ))}
                         </View>
                     </View>
-                ) : null
-            }
-        </>
+                )
+            )
     );
 }
 export default PaymentDetailsCard;

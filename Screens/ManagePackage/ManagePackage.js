@@ -25,10 +25,13 @@ const ManagePackage = ({route}) => {
                 {employee ? (
                         <SelectedEmployeeDetails employee={employee} setIsPackageExists={(bool) => setIsPackageExists(bool)}/>
                     ) : (
-                        <FindAndListEmployees onEmployeeSelect={(emp) => setEmployee(emp)}/>
+                        <>
+                            <FindAndListEmployees onEmployeeSelect={(emp) => setEmployee(emp)}/>
+                        </>
                     )
                 }
             </View>
+            {/*{!employee && (<Text> Search for An Employee by name in the Above Search Bar</Text>)}*/}
             {employee && isPackageExists ?(
                     <PaymentDetailsCard employee={employee}/>
                 ) : null

@@ -1,13 +1,13 @@
-import {ScrollView, Text} from "react-native";
+import {ActivityIndicator, ScrollView, View} from "react-native";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import EmployeeDetailCard from "./EmployeeDetailCard/EmployeeDetailCard";
 import SECRETS from "../../constants/SECRETS";
+import COLORS from "../../constants/COLORS";
 
 const API_URL = SECRETS.API_URL;
 const ViewEmployees = () => {
     const [loaders, setLoaders] = useState({});
-
     const [employees, setEmployees] = useState([]);
 
     const fetchEmployees = async () => {
@@ -21,13 +21,19 @@ const ViewEmployees = () => {
     }, []);
 
     return (
-        <ScrollView>
-            {loaders.employees && <Text>Loading...</Text>}
-            {employees && employees.map((employee) =>  (
-                    <EmployeeDetailCard key={employee.EmpID} employee={employee} />
-                )
-            )}
-        </ScrollView>
+        ( loaders.employees ? (
+                <View style={{flex: 1,alignItems:"center", justifyContent:"center"}}>
+                    <ActivityIndicator color={COLORS.primary} size={50}/>
+                </View>
+            ):(
+                <ScrollView>
+                    {employees && employees.map((employee) =>  (
+                            <EmployeeDetailCard key={employee.EmpID} employee={employee} />
+                        ))
+                    }
+                </ScrollView>
+            )
+        )
     );
 }
 

@@ -36,8 +36,8 @@ const Dashboard = ({navigation}) => {
                     <Text style={DashboardPageStyle.pageDescriptionText}>Employee Management Portal</Text>
                 </View>
             </View>
-            <View style={DashboardPageStyle.bodyContainer}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            {/*<View >*/}
+                <ScrollView  style={DashboardPageStyle.bodyContainer} showsVerticalScrollIndicator={false}>
                     {DashboardActions.map((action, index) => (
                         <TouchableOpacity key={index} style={DashboardPageStyle.actionCardContainer} onPress={() => navigation.navigate(action.targetScreen)}>
                             <View style={{width: DIMENSIONS.third, alignItems:"center"}}>
@@ -50,7 +50,7 @@ const Dashboard = ({navigation}) => {
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
-            </View>
+            {/*</View>*/}
         </View>
     );
 }

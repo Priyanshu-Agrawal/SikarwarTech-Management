@@ -38,12 +38,13 @@ const DashboardPageStyle = {
         backgroundColor: COLORS.white,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingTop: 10,
+        paddingVertical: 10,
+        paddingTop: 30
     },
     actionCardContainer:{
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 20,
+        marginBottom: 20,
         marginHorizontal: 20,
         height: 150,
         backgroundColor: COLORS.white,
@@ -51,11 +52,6 @@ const DashboardPageStyle = {
         borderWidth: DIMENSIONS.hairlineWidth,
         borderColor: COLORS.primary,
         elevation:5,
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.3,
     },
     actionCardDetails:{
         flex: 1,
