@@ -15,62 +15,47 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-          # - name: view content of direcory
-          # run: ls
+      - name: Install jq
+        run: sudo apt-get install jq
 
+      - name: Delete old release
+        run: |
+          RELEASE_ID=$(curl --silent "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/tags/beta" \
+            -H "Authorization: token ${{ secrets.PAT }}" | jq '.id')
+          if [ "$RELEASE_ID" != "null" ]; then
+            curl -X DELETE "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" \
+              -H "Authorization: token ${{ secrets.PAT }}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # - name: Create Dummy File
-          #   run: echo "This is a dummy file" > ./dummy.txt
-
-          # - name: Create test Release
-          #   id: create_release_test
-          #   uses: actions/create-release@v1
-          #   env:
-          #     GITHUB_TOKEN: ${{ secrets.PAT }}
-          #   with:
-          #     tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
-          #     release_name: Release ${{ format('{0}-{1}', 'debug', github.run_number) }}
-          #     draft: false
-          #     prerelease: false
-
-      # - name: Upload Release Asset test
-      #   id: upload-release-asset-test
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.PAT }}
-      #   with:
-      #     upload_url: ${{ steps.create_release_test.outputs.upload_url }}
-      #     asset_path: ./dummy.txt
-      #     asset_name: dummy.txt
-      #     asset_content_type: text/plain
-
-
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: beta
+          release_name: Beta Release
+          draft: false
+          prerelease: false
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+
       - name: Setup Expo
         uses: expo/expo-github-action@v6
         with:
           expo-version: 4.x
           token: ${{ secrets.EXPO_TOKEN }}
           expo-cache: true
+
       - name: Install Dependencies
         run: npm ci
 
       - name: Install expo-dev-client
         run: npm install expo-dev-client
-
-#      - name: Install Replace In File
-#        run: npm install replace-in-file
-
-#      - name: Replace secrets
-#        run: npx replace-in-file 'process.env.EXPO_PUBLIC_API_URL' ${{ secrets.API_URL }} ./constants/SECRETS.js
-
-#      - name: Replace secrets in SECRETS_TEMPLATE.js
-#        run: |
-#          sed -i "s/process.env.EXPO_PUBLIC_API_URL/${{ secrets.API_URL }}/g" ./constants/SECRETS_TEMPLATE.js
-#          mv ./constants/SECRETS_TEMPLATE.js ./constants/SECRETS.js
 
       - name: Remove existing SECRETS
         run: rm ./constants/SECRETS.js
@@ -89,41 +74,19 @@ jobs:
         run: npx eas-cli build --platform android --profile preview --non-interactive --local --output debug.apk
         # run: npx eas-cli build --platform android --profile development  --non-interactive --local --output=./app-build \
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
-          release_name: Release ${{ format('{0}-{1}', 'debug', github.run_number) }}
-          draft: false
-          prerelease: false
-      #          tag_name: ${{ github.ref_name }}
 
 
-      #          tag_name: ${{ format('{0}-{1}', 'debug', github.run_number) }}
-      #            release_name: Debug APK Release
-      #            draft: false
-      #            prerelease: false
 
-
-      # - name: Upload Release Asset package
-      #   id: upload-release-asset-package
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.PAT }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./package.json
-      #     asset_name: package.json
-      #     asset_content_type: text/plain
-
-      - name: view content of direcory
-        run: ls -l
-
-      # - name: Copy APK to Specific Path
-      #   run: cp ./build/* ./build/new
+      #      - name: Create Release
+      #        id: create_release
+      #        uses: actions/create-release@v1
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.PAT }}
+      #        with:
+      #          tag_name: ${{ format('beta-{0}.{1}', github.run_number, github.run_id) }}
+      #          release_name: ${{ format('Beta Release {0}.{1}', github.run_number, github.run_id) }}
+      #          draft: false
+      #          prerelease: false
 
       - name: Upload Release Asset
         id: upload-release-asset
@@ -133,25 +96,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./debug.apk
-          asset_name: sikarwarTechServices.apk
+          asset_name: Sikarwar Tech Services beta .apk
           asset_content_type: application/vnd.android.package-archive
-      #- name: Upload Release Asset
-      #  id: upload-release-asset
-      #  uses: actions/upload-release-asset@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.PAT }}
-      #  with:
-      #    upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #    asset_path: ./app-build/*.apk
-      #    asset_name: app.apk
-      #    asset_content_type: application/vnd.android.package-archive
-      # - name: Upload Release Asset
-      #         id: upload-release-asset
-      #         uses: sekwah41/upload-release-assets@v1.1.0
-      #         env:
-      #           GITHUB_TOKEN: ${{ secrets.PAT }} # Using PAT instead of GITHUB_TOKEN
-      #         with:
-      #           upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #           asset_path: ./app-build/*.apk
-      #           asset_name: app.apk
-      #           asset_content_type: application/vnd.android.package-archive
