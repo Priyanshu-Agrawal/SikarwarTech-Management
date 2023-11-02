@@ -2,10 +2,10 @@ name: EAS Build
 on:
   push:
     branches:
-      - '*'
+      - 'manual'
   pull_request:
     branches:
-      - '*'
+      - 'manual'
   workflow_dispatch:
 
 jobs:
