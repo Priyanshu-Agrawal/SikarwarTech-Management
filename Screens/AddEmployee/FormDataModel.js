@@ -6,7 +6,7 @@ const FormDataModel = [
             {label: 'Date of Birth', valueName: 'DOB', type: 'Date', required: true, keyboardType: 'numeric', maxLength: 10, viewType: 'datePicker'},
             {label: 'Date of Joining', valueName: 'DOJ', type: 'Date', required: true, keyboardType: 'numeric', maxLength: 10, viewType: 'datePicker'},
             {label: 'Designation', valueName: 'Designation', type: 'Text', required: true, keyboardType: 'default', maxLength: 50, viewType: 'textInput'},
-            {label: 'PAN Card', valueName: 'PANCard', type: 'Text', required: false, keyboardType: 'default', maxLength: 10, viewType: 'textInput'},
+            {label: 'PAN Card', valueName: 'PANCard', type: 'Text', required: true, keyboardType: 'default', maxLength: 10, viewType: 'textInput'},
         ],
         expanded: true,
     },
@@ -15,7 +15,7 @@ const FormDataModel = [
         fields: [
             { label: 'Address', valueName: 'EmpAddress' , type: 'Text', required: true, keyboardType: 'default', maxLength: 100, viewType: 'textInput'},
             { label: 'Phone', valueName: 'Contact_number' , type: 'Number', required: true, keyboardType: 'numeric', maxLength: 10, viewType: 'textInput'},
-            { label: 'Email', valueName: 'E_mail' , type: 'Email', required: false, keyboardType: 'email-address', maxLength: 50, viewType: 'textInput'},
+            { label: 'Email', valueName: 'E_mail' , type: 'Email', required: true, keyboardType: 'email-address', maxLength: 50, viewType: 'textInput'},
             { label: 'Pin Code', valueName: 'Pin_Code' , type: 'Number', required: true, keyboardType: 'numeric', maxLength: 6, viewType: 'textInput'},
         ],
         expanded: true,

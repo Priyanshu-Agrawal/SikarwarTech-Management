@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native";
 import COLORS from "../../../constants/COLORS";
+import DIMENSIONS from "../../../constants/DIMENSIONS";
 
 const FindAndListEmployeeStyles = StyleSheet.create({
     searchCardContainer: {
@@ -20,15 +21,18 @@ const FindAndListEmployeeStyles = StyleSheet.create({
         flexGrow: 1,
     },
     searchResultContainer: {
-        marginTop: 5,
-        padding: 10,
+        paddingHorizontal: 10,
         borderTopWidth: 1,
+        marginTop:10
     },
     searchResultItem: {
         flexDirection: "row",
+        borderBottomWidth: DIMENSIONS.hairlineWidth,
+        paddingVertical: 10,
+        paddingHorizontal: 2,
     },
     searchResultItemEmployeeID: {
-        fontWeight: "bold",
+        fontWeight: "500",
         marginRight: 10,
         width: 50,
     }

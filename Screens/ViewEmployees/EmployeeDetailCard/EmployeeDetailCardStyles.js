@@ -31,6 +31,17 @@ const EmployeeDetailCardStyles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
     },
+    expandDetailsBtnText: {
+        borderWidth:DIMENSIONS.hairlineWidth,
+        paddingVertical:5,
+        paddingHorizontal:10,
+        borderRadius:20,
+        fontSize:12,
+        marginTop:10,
+        marginBottom:5,
+        color:COLORS.primary,
+        borderColor:COLORS.primary
+    },
     moreDetailsBtn: {
         height: DIMENSIONS.max,
         position: 'absolute',

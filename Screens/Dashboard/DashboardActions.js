@@ -16,7 +16,7 @@ const DashboardActions = [
     },
     {
         title: 'Manage Package',
-        icon: 'pluscircle',
+        icon: 'solution1',
         description: 'Manage packages of employees',
         targetScreen: 'ManagePackage',
         onPress: () => navigation.navigate('ManagePackage')

@@ -14,7 +14,7 @@ const FindAndListEmployees = ({onEmployeeSelect}) => {
 
     const handleEmployeeSearch = debounce( (query) => {
 
-        if(query.length < 3){
+        if(query.length < 0){
             setMatchingEmployees(null)
             setLoaders({searching: false})
             return
@@ -42,8 +42,8 @@ const FindAndListEmployees = ({onEmployeeSelect}) => {
                 </View>
                 {matchingEmployees ? (
                     <View style={FindAndListEmployeeStyles.searchResultContainer}>
-                        {matchingEmployees.length > 0 ? (matchingEmployees.map( employee => (
-                            <TouchableOpacity style={FindAndListEmployeeStyles.searchResultItem} key={employee.EmpID} onPress={() => onEmployeeSelect(employee)}>
+                        {matchingEmployees.length > 0 ? (matchingEmployees.map( (employee, index) => (
+                            <TouchableOpacity style={[FindAndListEmployeeStyles.searchResultItem, index + 1 === matchingEmployees.length && {borderBottomWidth: 0}]} key={employee.EmpID} onPress={() => onEmployeeSelect(employee)}>
                                 <Text style={FindAndListEmployeeStyles.searchResultItemEmployeeID}>{employee.EmpID}</Text>
                                 <Text>{employee.Empname}</Text>
                             </TouchableOpacity>

@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
 import DashboardActions from "./DashboardActions";
 import DIMENSIONS from "../../constants/DIMENSIONS";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const Dashboard = ({navigation}) => {
     const [user, setUser] = useState(null);
@@ -33,24 +34,23 @@ const Dashboard = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
                 <View style={DashboardPageStyle.headerBottomContainer}>
-                    <Text style={DashboardPageStyle.pageDescriptionText}>Employee Management Portal</Text>
+                    <Text style={DashboardPageStyle.pageDescriptionText} adjustsFontSizeToFit minimumFontScale={0.5} numberOfLines={1}>Employee Management Portal</Text>
                 </View>
             </View>
-            {/*<View >*/}
-                <ScrollView  style={DashboardPageStyle.bodyContainer} showsVerticalScrollIndicator={false}>
-                    {DashboardActions.map((action, index) => (
-                        <TouchableOpacity key={index} style={DashboardPageStyle.actionCardContainer} onPress={() => navigation.navigate(action.targetScreen)}>
-                            <View style={{width: DIMENSIONS.third, alignItems:"center"}}>
-                                <AntDesign name={action.icon} size={24} color={COLORS.primary} />
-                            </View>
-                            <View style={DashboardPageStyle.actionCardDetails} >
-                                <Text style={DashboardPageStyle.actionCardDetailsTitle}>{action.title}</Text>
-                                <Text style={DashboardPageStyle.actionCardDetailsDescription}>{action.description}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </ScrollView>
-            {/*</View>*/}
+            <ScrollView style={DashboardPageStyle.bodyContainer} showsVerticalScrollIndicator={false}>
+                {DashboardActions.map((action, index) => (
+                    <TouchableOpacity key={index} style={DashboardPageStyle.actionCardContainer} onPress={() => navigation.navigate(action.targetScreen)}>
+                        <View style={{width: DIMENSIONS.third, alignItems:"center"}}>
+                            <AntDesign name={action.icon} size={24} color={COLORS.primary} />
+                        </View>
+                        <View style={DashboardPageStyle.actionCardDetails} >
+                            <Text style={DashboardPageStyle.actionCardDetailsTitle}>{action.title}</Text>
+                            <Text style={DashboardPageStyle.actionCardDetailsDescription}>{action.description}</Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+                <Text style={{color: "transparent"}}>Developed by: </Text>
+            </ScrollView>
         </View>
     );
 }

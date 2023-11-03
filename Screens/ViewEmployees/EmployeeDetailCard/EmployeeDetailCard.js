@@ -48,7 +48,12 @@ const EmployeeDetailCard = ({employee}) => {
                         moreDetails ? setExpanded(true) : handleExpandBtnClick()
                     ) : setExpanded(false)
                 }}>
-                    <FontAwesome5 name={loaders.moreDetails ? "spinner" : expanded ? "chevron-up" : "chevron-down" } size={12} color={COLORS.primary} />
+
+                    {loaders.moreDetails ?
+                            <FontAwesome5 name={loaders.moreDetails ? "spinner" : expanded ? "chevron-up" : "chevron-down" } size={16} color={COLORS.primary} />
+                        :
+                            <Text style={EmployeeDetailCardStyles.expandDetailsBtnText}>Show {expanded ? "Less": "More"}</Text>
+                    }
                 </TouchableOpacity>
                 {expanded && (
                     <View>

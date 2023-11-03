@@ -38,8 +38,7 @@ const DashboardPageStyle = {
         backgroundColor: COLORS.white,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingVertical: 10,
-        paddingTop: 30
+        paddingVertical: 30,
     },
     actionCardContainer:{
         flexDirection: 'row',

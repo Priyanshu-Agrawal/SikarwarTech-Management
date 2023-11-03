@@ -1,12 +1,13 @@
-import {ActivityIndicator, ScrollView, Text, View} from "react-native";
+import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {useEffect, useState} from "react";
 import SECRETS from "../../constants/SECRETS";
 import axios from "axios";
-import {sortByProperty} from "../../Utilities/ArrayUtils";
+// import {sortByProperty} from "../../Utilities/ArrayUtils";
 import TableModel from "./TableModel";
 import tableModel from "./TableModel";
 import ViewTransactionsStyles from "./ViewTransactionsStyles";
 import COLORS from "../../constants/COLORS";
+import saveJSON from "../../Utilities/savejsonCSV";
 
 const API_URL = SECRETS.API_URL;
 
@@ -22,8 +23,8 @@ const ViewTransactions = () => {
 
 
     const[loaders, setLoaders] = useState({});
-    const [fetchedTransactions, setFetchedTransactions] = useState([]);
-    const [organizedTransactions, setOrganizedTransactions] = useState([]);
+    const [fetchedTransactions, setFetchedTransactions] = useState(null);
+    const [organizedTransactions, setOrganizedTransactions] = useState(null);
     const fetchTransactions = async() => {
         const response = await axios.get(`${API_URL}/table/paymentDetails`);
         console.log(response.data);
@@ -35,14 +36,14 @@ const ViewTransactions = () => {
     useEffect(() => {
         setLoaders({...loaders, isLoading: true});
         fetchTransactions().then(() => {
-            console.log("Fetched transactions");
-            console.log(fetchedTransactions);
-            if(sortByProperty(fetchedTransactions, "PaymentDate", "desc").length === fetchedTransactions.length){
-                setOrganizedTransactions(sortByProperty(fetchedTransactions, "PaymentDate", "desc"));
-            }
-            // setOrganizedTransactions(fetchedTransactions);
-            console.log("Organized transactions");
-            console.log(organizedTransactions);
+            // console.log("Fetched transactions");
+            // console.log(fetchedTransactions);
+            // if(sortByProperty(fetchedTransactions, "PaymentDate", "desc").length === fetchedTransactions.length){
+            //     setOrganizedTransactions(sortByProperty(fetchedTransactions, "PaymentDate", "desc"));
+            // }
+            // // setOrganizedTransactions(fetchedTransactions);
+            // console.log("Organized transactions");
+            // console.log(organizedTransactions);
             setLoaders({...loaders, isLoading: false});
         })
     }, []);
@@ -55,16 +56,21 @@ const ViewTransactions = () => {
         )
     }else{
         return(
-            organizedTransactions.length > 0  ? (
+            organizedTransactions && organizedTransactions.length > 0  ? (
                     <View style={ViewTransactionsStyles.rootView}>
-                        <Text>{organizedTransactions.length } transactions found</Text>
+                        <View style={ViewTransactionsStyles.topSection}>
+                            <Text>{organizedTransactions.length } transactions found</Text>
+                            <TouchableOpacity  style={ViewTransactionsStyles.exportBtn} onPress={() => saveJSON(organizedTransactions)} >
+                                <Text style={ViewTransactionsStyles.exportBtnText}>Export</Text>
+                            </TouchableOpacity>
+                        </View>
                         <ScrollView>
                             <ScrollView horizontal={true}>
                             <View>
                                 <View style={[ViewTransactionsStyles.row,ViewTransactionsStyles.header]}>
                                     {TableModel.map((item, index) => (
                                         <View key={index} style={[ViewTransactionsStyles.cell, {width: item.width}]}>
-                                            <Text>{item.name}</Text>
+                                            <Text adjustsFontSizeToFit minimumFontScale={0.5} numberOfLines={1} allowFontScaling={true} >{item.name}</Text>
                                         </View>
                                     ))}
                                 </View>
